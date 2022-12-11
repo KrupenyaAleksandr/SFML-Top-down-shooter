@@ -3,10 +3,12 @@
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include <vector>
 #include <chrono>
 #include <time.h>
 #include "character.h"
 #include "bullet.h"
+#include "enemy.h"
 
 class game
 {
@@ -16,6 +18,7 @@ protected:
 	sf::Clock reloadClock;
 	static game* instance;
 	character player;
+	std::vector <enemy> enemies;
 	float delta;
 	int deltaseconds;
 	static bool isShooting;
@@ -27,4 +30,6 @@ public:
 	static void update(float delta);
 	static void render();
 	static void updateDelta();
+	static sf::Vector2f getPlayerPos();
+	static float getPlayerRotation();
 };

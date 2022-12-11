@@ -12,6 +12,14 @@ game::game(unsigned int width, unsigned int height, const char* title)
 
 game::~game(){}
 
+sf::Vector2f game::getPlayerPos() {
+	return instance->player.sprite.getPosition();
+}
+
+float game::getPlayerRotation() {
+	return instance->player.sprite.getRotation();
+}
+
 void game::update(float delta) {
 	sf::Event event;
 	auto t1 = std::chrono::high_resolution_clock::now();
@@ -24,38 +32,70 @@ void game::update(float delta) {
 				instance->window.close();
 			}
 		}
-
 		//playermovement
+		//if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+		//	if (event.type == sf::Event::MouseMoved) {
+		//		instance->player.sprite.move(-0.5 * (delta / 8), 0);
+		//	}
+		//	else {
+		//		instance->player.sprite.move(-1 * (delta / 8), 0);
+		//	}
+		//}
+		//if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+		//	if (event.type == sf::Event::MouseMoved) {
+		//		instance->player.sprite.move(0.5 * (delta / 8), 0);
+		//	}
+		//	else {
+		//		instance->player.sprite.move(1 * (delta / 8), 0);
+		//	}
+		//}
+		//if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
+		//	if (event.type == sf::Event::MouseMoved) {
+		//		instance->player.sprite.move(0, -0.5 * (delta / 8));
+		//	}
+		//	else {
+		//		instance->player.sprite.move(0, -1 * (delta / 8));
+		//	}
+		//}
+		//if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+		//	if (event.type == sf::Event::MouseMoved) {
+		//		instance->player.sprite.move(0, 0.5 * (delta / 8));
+		//	}
+		//	else {
+		//		instance->player.sprite.move(0, 1 * (delta / 8));
+		//	}
+		//}
+
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
 			if (event.type == sf::Event::MouseMoved) {
-				instance->player.sprite.move(-0.5 * (delta / 8), 0);
+				instance->player.sprite.move(-0.5, 0);
 			}
 			else {
-				instance->player.sprite.move(-1 * (delta / 8), 0);
+				instance->player.sprite.move(-1.f, 0);
 			}
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
 			if (event.type == sf::Event::MouseMoved) {
-				instance->player.sprite.move(0.5 * (delta / 8), 0);
+				instance->player.sprite.move(0.5, 0);
 			}
 			else {
-				instance->player.sprite.move(1 * (delta / 8), 0);
+				instance->player.sprite.move(1.f , 0);
 			}
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
 			if (event.type == sf::Event::MouseMoved) {
-				instance->player.sprite.move(0, -0.5 * (delta / 8));
+				instance->player.sprite.move(0, -0.5);
 			}
 			else {
-				instance->player.sprite.move(0, -1 * (delta / 8));
+				instance->player.sprite.move(0, -1.f);
 			}
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
 			if (event.type == sf::Event::MouseMoved) {
-				instance->player.sprite.move(0, 0.5 * (delta / 8));
+				instance->player.sprite.move(0, 0.5);
 			}
 			else {
-				instance->player.sprite.move(0, 1 * (delta / 8));
+				instance->player.sprite.move(0, 1.f);
 			}
 		}
 
@@ -90,12 +130,8 @@ void game::updateDelta() {
 }
 
 void game::run() {
-	//auto t1 = std::chrono::high_resolution_clock::now();
+
 	while (instance->window.isOpen()) {
-		//auto t2 = std::chrono::high_resolution_clock::now();
-		//std::chrono::duration<float> dt = t2 - t1;
-		//t1 = t2;
-		//instance->deltaseconds = dt.count();
 		updateDelta();
 		update(instance->delta);
 		render();
