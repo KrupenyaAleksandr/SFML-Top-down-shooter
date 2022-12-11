@@ -1,6 +1,7 @@
 #include "game.h"
 
 game* game::instance = NULL;
+bool game::isShooting = false;
 
 game::game(unsigned int width, unsigned int height, const char* title) 
 	:window(sf::VideoMode(width, height), title, sf::Style::Close)
@@ -23,14 +24,50 @@ void game::update(float delta) {
 				instance->window.close();
 			}
 		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-			instance->player.sprite.move(-1 * (delta / 8), 0);
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-			instance->player.sprite.move(1 * (delta / 8), 0);
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
-			instance->player.sprite.move(0, -1 * (delta / 8));
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-			instance->player.sprite.move(0, 1 * (delta / 8));
+
+		//playermovement
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+			if (event.type == sf::Event::MouseMoved) {
+				instance->player.sprite.move(-0.5 * (delta / 8), 0);
+			}
+			else {
+				instance->player.sprite.move(-1 * (delta / 8), 0);
+			}
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+			if (event.type == sf::Event::MouseMoved) {
+				instance->player.sprite.move(0.5 * (delta / 8), 0);
+			}
+			else {
+				instance->player.sprite.move(1 * (delta / 8), 0);
+			}
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
+			if (event.type == sf::Event::MouseMoved) {
+				instance->player.sprite.move(0, -0.5 * (delta / 8));
+			}
+			else {
+				instance->player.sprite.move(0, -1 * (delta / 8));
+			}
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+			if (event.type == sf::Event::MouseMoved) {
+				instance->player.sprite.move(0, 0.5 * (delta / 8));
+			}
+			else {
+				instance->player.sprite.move(0, 1 * (delta / 8));
+			}
+		}
+
+		//shoot
+		std::cout << instance->player.reload << std::endl;
+		sf::Time t1;
+		t1 = instance->reloadClock.getElapsedTime();
+		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && t1.asSeconds() >= 0.3) {
+			isShooting = true;
+			std::cout << "SHOT" << std::endl;
+			instance->reloadClock.restart();
+		}
 	}
 }
 
@@ -39,6 +76,12 @@ void game::render() {
 	sf::Vector2f lookDirection = sf::Vector2f(sf::Mouse::getPosition(instance->window)) - instance->player.sprite.getPosition();
 	instance->player.sprite.setRotation(std::atan2f(lookDirection.y, lookDirection.x) * 180 / float(M_PI));
 	instance->player.render(instance->window);
+	if (isShooting) {
+		instance->playerBullet.bull.setPosition(instance->player.sprite.getPosition());
+		instance->playerBullet.bull.setRotation(instance->player.sprite.getRotation() - 90);
+		instance->window.draw(instance->playerBullet.bull);
+		isShooting = false;
+	}
 	instance->window.display();
 }
 
@@ -52,7 +95,7 @@ void game::run() {
 		//auto t2 = std::chrono::high_resolution_clock::now();
 		//std::chrono::duration<float> dt = t2 - t1;
 		//t1 = t2;
-		//instance->delta = dt.count();
+		//instance->deltaseconds = dt.count();
 		updateDelta();
 		update(instance->delta);
 		render();

@@ -3,8 +3,8 @@
 
 class character : public entity
 {
-protected:
-	int reload;
+public:
+	int reload = 0;
 	int weapon;
 	int hp;
 public:
