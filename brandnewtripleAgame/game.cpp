@@ -1,6 +1,6 @@
 #include "game.h"
 
-game* game::instance = NULL;
+game*game::instance = NULL;
 bool game::isShooting = false;
 
 game::game(unsigned int width, unsigned int height, const char* title) 
@@ -29,7 +29,8 @@ void game::update(float delta) {
 		}
 		else if (event.type == sf::Event::KeyPressed) {
 			if (event.key.code == sf::Keyboard::Escape) {
-				instance->window.close();
+				instance->exit = true;
+				return;
 			}
 		}
 		//playermovement
@@ -135,5 +136,8 @@ void game::run() {
 		updateDelta();
 		update(instance->delta);
 		render();
+		if (instance->exit) {
+			return;
+		}
 	}
 }

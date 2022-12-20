@@ -2,6 +2,7 @@
 #define _USE_MATH_DEFINES
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
+#include <SFML/Graphics/Rect.hpp>
 #include <iostream>
 #include <vector>
 #include <chrono>
@@ -13,7 +14,6 @@
 class game
 {
 protected:
-	sf::RenderWindow window;
 	sf::Clock clock;
 	sf::Clock reloadClock;
 	static game* instance;
@@ -23,7 +23,9 @@ protected:
 	int deltaseconds;
 	static bool isShooting;
 	bullet playerBullet;
+	bool exit = false;
 public:
+	sf::RenderWindow window;
 	game(unsigned int width, unsigned int height, const char* title);
 	virtual ~game();
 	static void run();
