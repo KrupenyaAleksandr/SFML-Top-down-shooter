@@ -9,8 +9,5 @@ public:
 	sf::Vector2f pos;
 public:
 	entity() {}
-	void render(sf::RenderWindow& window)
-	{
-		window.draw(sprite);
-	}
+	void render(sf::RenderWindow& window);
 };

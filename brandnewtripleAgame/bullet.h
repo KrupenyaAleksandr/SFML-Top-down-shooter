@@ -4,6 +4,7 @@ class bullet
 {
 public:
 	sf::RectangleShape bull;
+	sf::IntRect rec;
 public:
 	bullet();
 	virtual ~bullet();

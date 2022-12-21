@@ -2,9 +2,9 @@
 
 sf::Sprite menu::sprite;
 
-sf::IntRect menu::startr = { 300, 105, 300, 100 };
-sf::IntRect menu::settingsr = { 300, 455, 300, 100 };
-sf::IntRect menu::exitr = { 300, 805, 300, 100 };
+sf::IntRect menu::startr = { 300, 105, 600, 140 };
+sf::IntRect menu::settingsr = { 300, 455, 600, 140 };
+sf::IntRect menu::exitr = { 300, 805, 600, 140 };
 
 menu::menu(){
 	texture.loadFromFile("gamedata/texture/menu.png");

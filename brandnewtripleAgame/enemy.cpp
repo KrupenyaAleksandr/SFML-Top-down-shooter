@@ -1,40 +1,56 @@
 #include "enemy.h"
 
-enemy::enemy() {
- 
+sf::Texture enemy::texture;
+
+enemy::enemy(sf::Vector2f pos) {
+	enemy::texture.loadFromFile("gamedata/texture/zumbi.png");
+	sprite.setOrigin((sf::Vector2f)texture.getSize() / 2.f);
+	sprite.setPosition(pos);
+	sprite.setTexture(texture);
+	sprite.setScale(0.8, 0.8);
 }
 
 enemy::~enemy() {
 
 }
 
-sf::Vector2f normalize(const sf::Vector2f& source)
-{
-    float length = sqrt((source.x * source.x) + (source.y * source.y));
-    if (length != 0)
-        return sf::Vector2f(source.x / length, source.y / length);
-    else
-        return source;
+void enemy::spawn(std::vector <enemy>& enemies) {
+	sf::Vector2f pos;
+	int cmd = rand() % 4;
+	switch (cmd) {
+	case 0: {
+		pos = { -50, 500 };
+		enemies.push_back(enemy(pos));
+	}
+		  break;
+	case 1: {
+		pos = { 500, -10 };
+		enemies.push_back(enemy(pos));
+	}
+		  break;
+	case 2: {
+		pos = { 1300, 500 };
+		enemies.push_back(enemy(pos));
+	}
+		  break;
+	case 3: {
+		pos = { 500, 1000 };
+		enemies.push_back(enemy(pos));
+	}
+		  break;
+	}
 }
 
-void enemy::move(sf::Vector2f playerPos, float playerRotation, std::vector <enemy> enemies)
+void enemy::move(sf::Vector2f playerPos, float playerRotation, std::vector <enemy>& enemies)
 {
-    // Make movement
-    //sf::Vector2f playerPosition = instance->player.sprite.getPosition();
-    //for (int i = 0; i < instance->zombie.size(); ++i) {
-    //    float angle = atan2(instance->zombie[i].sprite.getPosition().y - instance->player.sprite.getPosition().y, instance->zombie[i].sprite.getPosition().x - instance->player.sprite.getPosition().x);
-    //    angle = angle * 180 / (atan(1) * 4);
-    //    sf::Vector2f newpos((cos(angle)) * 2, (sin(angle)) * 2);
-    //    instance->zombie[i].sprite.setPosition(newpos);
-    //}
-   
-    //for (int i = 0; i < enemies.size(); ++i) {
-    //    sf::Vector2f direction = normalize(player.getPosition() - enemy.getPosition());
-    //    sf::Vector2f thisPosition = enemies[i].sprite.getPosition();
-
-    //    //thisPosition.x = xPos;
-    //    //thisPosition.y = yPos;
-    //    sf::Vector2f direction = normalize(playerPosition - thisPosition);
-    //    instance->zombie[i].move(1 * direction);
-    //}
+	sf::Vector2f direction;
+	for (int i = 0; i < enemies.size(); ++i) {
+		direction = { playerPos.x - enemies[i].sprite.getPosition().x, playerPos.y - enemies[i].sprite.getPosition().y };
+		enemies[i].sprite.setRotation(std::atan2f(direction.y, direction.x) * 180 / float(3.14));
+		float hyp = sqrt(direction.x * direction.x + direction.y * direction.y);
+		direction.x /= hyp;
+		direction.y /= hyp;
+		sf::Vector2f tmp = enemies[i].sprite.getPosition();
+		enemies[i].sprite.setPosition((tmp.x + direction.x), (tmp.y + direction.y));
+	}
 }

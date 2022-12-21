@@ -4,6 +4,7 @@
 //NORMALIZE VECTOR: U = V / |V|
 
 int main() {
+	srand(time(NULL));
 	game game(1200, 1000, "bebra");
 	menu menu;
 	menu.start(&game);

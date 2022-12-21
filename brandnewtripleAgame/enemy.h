@@ -4,8 +4,11 @@
 class enemy : public entity
 {
 public:
-	enemy();
+	static sf::Texture texture;
+public:
+	enemy(sf::Vector2f pos);
 	virtual ~enemy();
-	void move(sf::Vector2f playerPos, float playerRotation, std::vector <enemy> enemies);
-	sf::Vector2f normalize(const sf::Vector2f& source);
+	static void spawn(std::vector <enemy>& enemies);
+	static void move(sf::Vector2f playerPos, float playerRotation, std::vector <enemy>& enemies);
+	static void enemy_shoot(std::vector <enemy>& enemies);
 };
