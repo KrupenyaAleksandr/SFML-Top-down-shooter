@@ -2,14 +2,13 @@
 
 sf::Sprite menu::sprite;
 
-sf::IntRect menu::startr = { 297, 101, 300, 100 };
+sf::IntRect menu::startr = { 300, 105, 300, 100 };
 sf::IntRect menu::settingsr = { 300, 455, 300, 100 };
 sf::IntRect menu::exitr = { 300, 805, 300, 100 };
 
 menu::menu(){
-	texture.loadFromFile("gamedata/texture/menu.png"); // не работает пока что
+	texture.loadFromFile("gamedata/texture/menu.png");
 	menu::sprite.setTexture(texture);
-	menu::sprite.setPosition(0, 0);
 }
 
 menu::~menu(){}
@@ -17,9 +16,11 @@ menu::~menu(){}
 void menu::start(game* game) {
 	while (game->window.isOpen()) {
 		sf::Event event;
+		game->window.draw(menu::sprite);
+		game->window.display();
 		while (game->window.pollEvent(event)) {
-			game->window.draw(menu::sprite);
 			if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+				std::cout << sf::Mouse::getPosition(game->window).x << " " << sf::Mouse::getPosition(game->window).y << std::endl;
 				if (menu::startr.contains(sf::Mouse::getPosition(game->window))) {
 					game->run();
 				}
