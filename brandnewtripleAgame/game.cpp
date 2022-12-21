@@ -71,9 +71,11 @@ void game::update(float delta) {
 		std::cout << instance->player.reload << std::endl;
 		sf::Time t1;
 		t1 = instance->reloadClock.getElapsedTime();
-		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && t1.asSeconds() >= 0.3) {
-			isShooting = true;
-			instance->reloadClock.restart();
+		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && t1.asSeconds() >= 0.4) {
+			if (sf::Event::MouseButtonReleased) {
+				isShooting = true;
+				instance->reloadClock.restart();
+			}
 		}
 	}
 }
@@ -90,6 +92,7 @@ void game::render() {
 		sf::FloatRect tmp;
 		for (int i = 0; i < instance->enemies.size(); ++i) {
 			tmp = { instance->enemies[i].sprite.getPosition().x, instance->enemies[i].sprite.getPosition().y, 64, 64 };
+			std::cout << tmp.left << " " << tmp.top << std::endl;
 			if (instance->playerBullet.bull.getGlobalBounds().intersects(tmp))
 			{
 				instance->score += 1;
