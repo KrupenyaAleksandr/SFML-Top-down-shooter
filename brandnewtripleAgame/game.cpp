@@ -86,20 +86,19 @@ void game::render() {
 	instance->player.sprite.setRotation(std::atan2f(lookDirection.y, lookDirection.x) * 180 / float(M_PI));
 	instance->player.render(instance->window);
 	if (isShooting) {
+		std::cout << "SHOOT" << std::endl;
 		instance->playerBullet.bull.setPosition(instance->player.sprite.getPosition());
 		instance->playerBullet.bull.setRotation(instance->player.sprite.getRotation() - 90);
 		instance->window.draw(instance->playerBullet.bull);
-		sf::FloatRect tmp;
 		for (int i = 0; i < instance->enemies.size(); ++i) {
-			tmp = { instance->enemies[i].sprite.getPosition().x, instance->enemies[i].sprite.getPosition().y, 64, 64 };
-			std::cout << tmp.left << " " << tmp.top << std::endl;
-			if (instance->playerBullet.bull.getGlobalBounds().intersects(tmp))
+			if (instance->enemies[i].sprite.getGlobalBounds().intersects(instance->playerBullet.bull.getGlobalBounds()))
 			{
 				instance->score += 1;
 				instance->enemies.erase(instance->enemies.begin() + i);
 				break;
 			}
 		}
+		instance->window.draw(instance->playerBullet.bull);
 		isShooting = false;
 	}
 	for (int i = 0; i < instance->enemies.size(); ++i) {

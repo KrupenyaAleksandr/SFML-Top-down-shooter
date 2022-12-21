@@ -7,7 +7,7 @@ enemy::enemy(sf::Vector2f pos) {
 	sprite.setOrigin((sf::Vector2f)texture.getSize() / 2.f);
 	sprite.setPosition(pos);
 	sprite.setTexture(texture);
-	sprite.setScale(0.8, 0.8);
+	sprite.setScale(1, 1);
 }
 
 enemy::~enemy() {
