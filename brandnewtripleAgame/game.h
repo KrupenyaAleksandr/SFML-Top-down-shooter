@@ -24,7 +24,7 @@ protected:
 	float delta;
 	int deltaseconds;
 	static bool isShooting;
-	bullet playerBullet;
+	std::vector <bullet> playerBullet;
 	bool exit = false;
 	int score = 0;
 public:

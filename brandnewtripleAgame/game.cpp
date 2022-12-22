@@ -70,10 +70,11 @@ void game::update(float delta) {
 		//shoot
 		sf::Time t1;
 		t1 = instance->reloadClock.getElapsedTime();
-		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && t1.asSeconds() >= 1) {
-			if (sf::Event::MouseButtonReleased) {
-				isShooting = true;
-				instance->reloadClock.restart();
+		if (event.type == sf::Event::MouseButtonReleased && t1.asSeconds() >= 1)
+		{
+			if (event.mouseButton.button == sf::Mouse::Left)
+			{
+				instance->playerBullet.push_back(sf::Vector2f(instance->player.sprite.getPosition()));
 			}
 		}
 	}
@@ -84,22 +85,8 @@ void game::render() {
 	sf::Vector2f lookDirection = sf::Vector2f(sf::Mouse::getPosition(instance->window)) - instance->player.sprite.getPosition();
 	instance->player.sprite.setRotation(std::atan2f(lookDirection.y, lookDirection.x) * 180 / float(M_PI));
 	instance->player.render(instance->window);
-	if (isShooting) {
-		std::cout << "SHOOT" << std::endl;
-		instance->playerBullet.sprite.setPosition(instance->player.sprite.getPosition());
-		instance->playerBullet.sprite.setRotation(instance->player.sprite.getRotation() - 90);
-		instance->window.draw(instance->playerBullet.bull);
-		for (int i = 0; i < instance->enemies.size(); ++i) {
-			//std::cout << "Count: " << instance->playerBullet.bull.getPointCount() << std::endl;
-				//if (instance->enemies[i].sprite.getGlobalBounds().intersects(instance->playerBullet.sprite.getGlobalBounds())) {
-				//if (instance->playerBullet.sprite.getGlobalBounds().intersects(instance->enemies[i].sprite.getOrigin()))
-					instance->score += 1;
-					instance->enemies.erase(instance->enemies.begin() + i);
-					break;
-				}
-		}
-		instance->window.draw(instance->playerBullet.sprite);
-		isShooting = false;
+	for (int i = 0; i < instance->playerBullet.size(); ++i) {
+		instance->window.draw(instance->playerBullet[i].sprite);
 	}
 	for (int i = 0; i < instance->enemies.size(); ++i) {
 		instance->enemies[i].render(instance->window);
@@ -121,6 +108,7 @@ void game::run() {
 			std::cout << instance->enemies.size() << std::endl;
 			instance->respawnClock.restart();
 		}
+		bullet::move_bullet(instance->playerBullet);
 		enemy::move(instance->player.sprite.getPosition(), 0, instance->enemies);
 		updateDelta();
 		update(instance->delta);

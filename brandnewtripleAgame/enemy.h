@@ -4,7 +4,7 @@
 class enemy : public entity
 {
 public:
-	sf::Texture texture;
+	static sf::Texture texture;
 public:
 	enemy(sf::Vector2f pos);
 	virtual ~enemy();

@@ -1,6 +1,6 @@
 #include "enemy.h"
 
-//sf::Texture enemy::texture;
+sf::Texture enemy::texture;
 
 enemy::enemy(sf::Vector2f pos) {
 	texture.loadFromFile("gamedata/texture/zumbi.png");
