@@ -1,9 +1,9 @@
 #include "enemy.h"
 
-sf::Texture enemy::texture;
+//sf::Texture enemy::texture;
 
 enemy::enemy(sf::Vector2f pos) {
-	enemy::texture.loadFromFile("gamedata/texture/zumbi.png");
+	texture.loadFromFile("gamedata/texture/zumbi.png");
 	sprite.setOrigin((sf::Vector2f)texture.getSize() / 2.f);
 	sprite.setPosition(pos);
 	sprite.setTexture(texture);
@@ -51,6 +51,8 @@ void enemy::move(sf::Vector2f playerPos, float playerRotation, std::vector <enem
 		direction.x /= hyp;
 		direction.y /= hyp;
 		sf::Vector2f tmp = enemies[i].sprite.getPosition();
-		enemies[i].sprite.setPosition((tmp.x + direction.x), (tmp.y + direction.y));
+		//enemies[i].sprite.move((tmp.x + direction.x), (tmp.y + direction.y));
+		enemies[i].sprite.move(direction.x, direction.y);
+		//enemies[i].sprite.setPosition(500, 500);
 	}
 }

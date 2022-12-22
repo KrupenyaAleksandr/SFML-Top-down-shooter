@@ -68,10 +68,9 @@ void game::update(float delta) {
 		}
 
 		//shoot
-		std::cout << instance->player.reload << std::endl;
 		sf::Time t1;
 		t1 = instance->reloadClock.getElapsedTime();
-		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && t1.asSeconds() >= 0.4) {
+		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && t1.asSeconds() >= 1) {
 			if (sf::Event::MouseButtonReleased) {
 				isShooting = true;
 				instance->reloadClock.restart();
@@ -87,18 +86,19 @@ void game::render() {
 	instance->player.render(instance->window);
 	if (isShooting) {
 		std::cout << "SHOOT" << std::endl;
-		instance->playerBullet.bull.setPosition(instance->player.sprite.getPosition());
-		instance->playerBullet.bull.setRotation(instance->player.sprite.getRotation() - 90);
+		instance->playerBullet.sprite.setPosition(instance->player.sprite.getPosition());
+		instance->playerBullet.sprite.setRotation(instance->player.sprite.getRotation() - 90);
 		instance->window.draw(instance->playerBullet.bull);
 		for (int i = 0; i < instance->enemies.size(); ++i) {
-			if (instance->enemies[i].sprite.getGlobalBounds().intersects(instance->playerBullet.bull.getGlobalBounds()))
-			{
-				instance->score += 1;
-				instance->enemies.erase(instance->enemies.begin() + i);
-				break;
-			}
+			//std::cout << "Count: " << instance->playerBullet.bull.getPointCount() << std::endl;
+				//if (instance->enemies[i].sprite.getGlobalBounds().intersects(instance->playerBullet.sprite.getGlobalBounds())) {
+				//if (instance->playerBullet.sprite.getGlobalBounds().intersects(instance->enemies[i].sprite.getOrigin()))
+					instance->score += 1;
+					instance->enemies.erase(instance->enemies.begin() + i);
+					break;
+				}
 		}
-		instance->window.draw(instance->playerBullet.bull);
+		instance->window.draw(instance->playerBullet.sprite);
 		isShooting = false;
 	}
 	for (int i = 0; i < instance->enemies.size(); ++i) {

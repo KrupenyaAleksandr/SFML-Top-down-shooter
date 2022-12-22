@@ -3,6 +3,8 @@
 class bullet
 {
 public:
+	sf::Texture texture;
+	sf::Sprite sprite;
 	sf::RectangleShape bull;
 	sf::IntRect rec;
 public:
