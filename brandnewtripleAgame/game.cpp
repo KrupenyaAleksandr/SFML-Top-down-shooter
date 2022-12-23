@@ -8,17 +8,17 @@ game::game(unsigned int width, unsigned int height, const char* title)
 {
 	window.setFramerateLimit(60);
 	instance = this;
-	this->player.sprite.setPosition(this->window.getSize().x / 2, this->window.getSize().y / 2);
+	this->player.sprite.setPosition(600, 500);
 }
 
 game::~game(){}
 
-sf::Vector2f game::getPlayerPos() {
-	return instance->player.sprite.getPosition();
-}
-
-float game::getPlayerRotation() {
-	return instance->player.sprite.getRotation();
+void game::reset() {
+	instance->player.sprite.setPosition(600, 500);
+	instance->enemies.clear();
+	instance->playerBullet.clear();
+	instance->score = 0;
+	isShooting = false;
 }
 
 void game::update(float delta) {
@@ -70,10 +70,11 @@ void game::update(float delta) {
 		//shoot
 		sf::Time t1;
 		t1 = instance->reloadClock.getElapsedTime();
-		if (event.type == sf::Event::MouseButtonReleased && t1.asSeconds() >= 1)
+		if (event.type == sf::Event::MouseButtonReleased && t1.asSeconds() >= 0.2)
 		{
 			if (event.mouseButton.button == sf::Mouse::Left)
 			{
+				instance->reloadClock.restart();
 				isShooting = true;
 				instance->playerBullet.push_back(bullet(sf::Vector2f(instance->player.sprite.getPosition()), sf::Vector2f(sf::Mouse::getPosition(instance->window))));
 			}
@@ -113,7 +114,7 @@ void game::run() {
 	while (instance->window.isOpen()) {
 		sf::Time t2;
 		t2 = instance->respawnClock.getElapsedTime();
-		if (instance->enemies.size() < 20 && t2.asSeconds() >= 1) {
+		if (instance->enemies.size() < 20 && t2.asSeconds() >= 0.8) {
 			enemy::spawn(instance->enemies);
 			instance->respawnClock.restart();
 		}
@@ -121,6 +122,9 @@ void game::run() {
 		enemy::move(instance->player.sprite.getPosition(), 0, instance->enemies);
 		bullet::bullet_outofbounds(instance->playerBullet);
 		enemy::enemy_shoot(instance->enemies, instance->playerBullet, instance->score);
+		if (character::collision_withenemy(instance->enemies, instance->player.sprite)) {
+			instance->reset(); 
+		}
 		std::cout << instance->score << std::endl;
 		updateDelta();
 		update(instance->delta);

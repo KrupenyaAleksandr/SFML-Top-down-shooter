@@ -52,7 +52,7 @@ void enemy::move(sf::Vector2f playerPos, float playerRotation, std::vector <enem
 		direction.x /= hyp;
 		direction.y /= hyp;
 		sf::Vector2f tmp = enemies[i].sprite.getPosition();
-		enemies[i].sprite.move(direction.x * 9, direction.y * 9);
+		enemies[i].sprite.move(direction.x * 6, direction.y * 6);
 	}
 }
 

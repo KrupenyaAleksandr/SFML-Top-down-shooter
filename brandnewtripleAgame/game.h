@@ -34,6 +34,7 @@ public:
 	game(unsigned int width, unsigned int height, const char* title);
 	virtual ~game();
 	static void run();
+	static void reset();
 	static void update(float delta);
 	static void render();
 	static void updateDelta();

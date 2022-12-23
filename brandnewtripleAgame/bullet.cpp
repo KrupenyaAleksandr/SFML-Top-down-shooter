@@ -11,11 +11,10 @@ bullet::bullet(sf::Vector2f pos, sf::Vector2f mousePos) {
 	sf::Vector2f aimDirNorm;
 	aimDirNorm.x = aimDir.x / sqrt(pow(aimDir.x, 2) + pow(aimDir.y, 2));
 	aimDirNorm.y = aimDir.y / sqrt(pow(aimDir.x, 2) + pow(aimDir.y, 2));
-	currVelocity.x = aimDirNorm.x * 70;
-	currVelocity.y = aimDirNorm.y * 70;
-	sprite.setScale(0.03, 0.03);
-	sprite.setPosition(pos.x + currVelocity.x * 1.5, pos.y + currVelocity.y * 1.5);
-	//curr velocity 0 0, fiksi blyat'
+	currVelocity.x = aimDirNorm.x * 90;
+	currVelocity.y = aimDirNorm.y * 90;
+	sprite.setScale(0.02, 0.02);
+	sprite.setPosition(pos.x + currVelocity.x * 1.15, pos.y + currVelocity.y * 1.15);
 }
 
 bullet::~bullet(){}
