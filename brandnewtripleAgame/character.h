@@ -4,11 +4,11 @@
 class character : public entity
 {
 public:
-	int reload = 0;
-	int weapon;
-	int hp;
+	sf::Texture shootTex;
+	sf::Sprite shootSprite;
 public:
 	character();
+	virtual sf::Sprite getSprite(int cmd);
 	virtual ~character();
 };
 

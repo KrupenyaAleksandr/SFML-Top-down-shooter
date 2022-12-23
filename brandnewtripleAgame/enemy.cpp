@@ -7,7 +7,7 @@ enemy::enemy(sf::Vector2f pos) {
 	sprite.setOrigin((sf::Vector2f)texture.getSize() / 2.f);
 	sprite.setPosition(pos);
 	sprite.setTexture(texture);
-	sprite.setScale(1, 1);
+	sprite.setScale(2.6, 2.6);
 }
 
 enemy::~enemy() {
@@ -52,7 +52,7 @@ void enemy::move(sf::Vector2f playerPos, float playerRotation, std::vector <enem
 		direction.x /= hyp;
 		direction.y /= hyp;
 		sf::Vector2f tmp = enemies[i].sprite.getPosition();
-		enemies[i].sprite.move(direction.x * 3, direction.y * 3);
+		enemies[i].sprite.move(direction.x * 9, direction.y * 9);
 	}
 }
 

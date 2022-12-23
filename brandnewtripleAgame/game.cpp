@@ -36,34 +36,34 @@ void game::update(float delta) {
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) { 
 			if (event.type == sf::Event::MouseMoved) {
-				instance->player.sprite.move(-0.5, 0);
+				instance->player.sprite.move(-0.5 * 3, 0);
 			}
 			else {
-				instance->player.sprite.move(-1.f, 0);
+				instance->player.sprite.move(-1.f * 4, 0);
 			}
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
 			if (event.type == sf::Event::MouseMoved) {
-				instance->player.sprite.move(0.5, 0);
+				instance->player.sprite.move(0.5 * 3, 0);
 			}
 			else {
-				instance->player.sprite.move(1.f , 0);
+				instance->player.sprite.move(1.f * 4, 0);
 			}
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
 			if (event.type == sf::Event::MouseMoved) {
-				instance->player.sprite.move(0, -0.5);
+				instance->player.sprite.move(0, -0.5 * 3);
 			}
 			else {
-				instance->player.sprite.move(0, -1.f);
+				instance->player.sprite.move(0, -1.f * 4);
 			}
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
 			if (event.type == sf::Event::MouseMoved) {
-				instance->player.sprite.move(0, 0.5);
+				instance->player.sprite.move(0, 0.5 * 3);
 			}
 			else {
-				instance->player.sprite.move(0, 1.f);
+				instance->player.sprite.move(0, 1.f * 4);
 			}
 		}
 
@@ -74,6 +74,7 @@ void game::update(float delta) {
 		{
 			if (event.mouseButton.button == sf::Mouse::Left)
 			{
+				isShooting = true;
 				instance->playerBullet.push_back(bullet(sf::Vector2f(instance->player.sprite.getPosition()), sf::Vector2f(sf::Mouse::getPosition(instance->window))));
 			}
 		}
@@ -82,15 +83,21 @@ void game::update(float delta) {
 
 void game::render() {
 	instance->window.clear();
+	instance->window.draw(instance->mapSprite);
 	sf::Vector2f lookDirection = sf::Vector2f(sf::Mouse::getPosition(instance->window)) - instance->player.sprite.getPosition();
 	instance->player.sprite.setRotation(std::atan2f(lookDirection.y, lookDirection.x) * 180 / float(M_PI));
-	instance->player.render(instance->window);
-
+	if (isShooting) {
+		instance->player.shootSprite.setPosition(instance->player.sprite.getPosition());
+		instance->player.shootSprite.setRotation(instance->player.sprite.getRotation());
+		instance->player.render(instance->window, instance->player.shootSprite);
+		isShooting = false;
+	}
+	else instance->player.render(instance->window, instance->player.getSprite(0));
 	for (int i = 0; i < instance->playerBullet.size(); ++i) {
 		instance->playerBullet[i].render(instance->window);
 	}
 	for (int i = 0; i < instance->enemies.size(); ++i) {
-		instance->enemies[i].render(instance->window);
+		instance->enemies[i].render(instance->window, instance->enemies[i].getSprite());
 	}
 	instance->window.display();
 }
@@ -101,6 +108,8 @@ void game::updateDelta() {
 
 void game::run() {
 	instance->exit = false;
+	instance->mapTex.loadFromFile("gamedata/texture/map.png");
+	instance->mapSprite.setTexture(instance->mapTex);
 	while (instance->window.isOpen()) {
 		sf::Time t2;
 		t2 = instance->respawnClock.getElapsedTime();

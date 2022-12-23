@@ -27,6 +27,8 @@ protected:
 	std::vector <bullet> playerBullet;
 	bool exit = false;
 	int score = 0;
+	sf::Texture mapTex;
+	sf::Sprite mapSprite;
 public:
 	sf::RenderWindow window;
 	game(unsigned int width, unsigned int height, const char* title);
