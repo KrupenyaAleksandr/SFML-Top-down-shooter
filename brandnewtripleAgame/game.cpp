@@ -74,6 +74,7 @@ void game::update(float delta) {
 		{
 			if (event.mouseButton.button == sf::Mouse::Left)
 			{
+				instance->gamesound.sounds_eff[0].play();
 				instance->reloadClock.restart();
 				isShooting = true;
 				instance->playerBullet.push_back(bullet(sf::Vector2f(instance->player.sprite.getPosition()), sf::Vector2f(sf::Mouse::getPosition(instance->window))));
@@ -109,6 +110,7 @@ void game::updateDelta() {
 
 void game::run() {
 	instance->exit = false;
+	instance->gamesound.music[1].play();
 	instance->mapTex.loadFromFile("gamedata/texture/map.png");
 	instance->mapSprite.setTexture(instance->mapTex);
 	while (instance->window.isOpen()) {
@@ -123,6 +125,7 @@ void game::run() {
 		bullet::bullet_outofbounds(instance->playerBullet);
 		enemy::enemy_shoot(instance->enemies, instance->playerBullet, instance->score);
 		if (character::collision_withenemy(instance->enemies, instance->player.sprite)) {
+			instance->gamesound.sounds_eff[1].play();
 			instance->reset(); 
 		}
 		std::cout << instance->score << std::endl;
@@ -130,6 +133,7 @@ void game::run() {
 		update(instance->delta);
 		render();
 		if (instance->exit) {
+			instance->gamesound.music[1].stop();
 			return;
 		}
 	}

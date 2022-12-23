@@ -1,5 +1,6 @@
 #pragma once
 #include "game.h"
+#include "SFML/Audio.hpp"
 
 class menu
 {
@@ -12,6 +13,7 @@ protected:
 	static sf::IntRect startr;
 	static sf::IntRect settingsr;
 	static sf::IntRect exitr;
+	static sf::Music music_menu;
 public:
 	menu();
 	virtual ~menu();

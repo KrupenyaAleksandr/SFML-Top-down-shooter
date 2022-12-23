@@ -4,6 +4,7 @@
 sf::Sprite menu::sprite;
 std::vector <sf::Sprite> menu::animation(151);
 std::vector <sf::Texture> menu::animationTex(151);
+sf::Music menu::music_menu;
 int menu::animFrame = 0;
 
 sf::IntRect menu::startr = { 438, 337, 320, 72 };
@@ -14,8 +15,6 @@ menu::menu(){
 	sf::IntRect tmpRect = { 160, 150, 300, 80 };
 	for (int i = 0; i < 152; ++i) {
 		std::string num = std::to_string(i);
-		//animation.push_back(sprite);
-		//animationTex.push_back(texture);
 		if (i < 10) {
 			std::string tmp = "gamedata/animationmenu/frame_00" + num + "_delay-0.01s.png";
 			animationTex[i].loadFromFile(tmp);
@@ -43,11 +42,15 @@ menu::menu(){
 		texture.loadFromFile("gamedata/texture/menu.png");
 		menu::sprite.setTexture(texture);
 	}
+	music_menu.openFromFile("gamedata/sound/Modulogeek-Around.wav");
+	music_menu.setLoop(true);
+	music_menu.setVolume(30);
 }
 
 menu::~menu(){}
 
 void menu::start(game* game) {
+	music_menu.play();
 	while (game->window.isOpen()) {
 		sf::Event event;
 		game->window.draw(menu::sprite);
@@ -56,7 +59,9 @@ void menu::start(game* game) {
 			if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
 				std::cout << sf::Mouse::getPosition(game->window).x << " " << sf::Mouse::getPosition(game->window).y << std::endl;
 				if (menu::startr.contains(sf::Mouse::getPosition(game->window))) {
+					music_menu.stop();
 					game->run();
+					music_menu.play();
 				}
 				else if (menu::exitr.contains(sf::Mouse::getPosition(game->window))) {
 						game->window.close();
