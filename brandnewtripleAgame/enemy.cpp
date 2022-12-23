@@ -17,24 +17,25 @@ enemy::~enemy() {
 void enemy::spawn(std::vector <enemy>& enemies) {
 	sf::Vector2f pos;
 	int cmd = rand() % 4;
+	float random = rand() % 1000;
 	switch (cmd) {
 	case 0: {
-		pos = { -50, 500 };
+		pos = { -50, random};
 		enemies.push_back(enemy(pos));
 	}
 		  break;
 	case 1: {
-		pos = { 500, -10 };
+		pos = { random, -10};
 		enemies.push_back(enemy(pos));
 	}
 		  break;
 	case 2: {
-		pos = { 1300, 500 };
+		pos = { 1300, random };
 		enemies.push_back(enemy(pos));
 	}
 		  break;
 	case 3: {
-		pos = { 500, 1000 };
+		pos = { random, 1000};
 		enemies.push_back(enemy(pos));
 	}
 		  break;
@@ -51,8 +52,18 @@ void enemy::move(sf::Vector2f playerPos, float playerRotation, std::vector <enem
 		direction.x /= hyp;
 		direction.y /= hyp;
 		sf::Vector2f tmp = enemies[i].sprite.getPosition();
-		//enemies[i].sprite.move((tmp.x + direction.x), (tmp.y + direction.y));
-		enemies[i].sprite.move(direction.x, direction.y);
-		//enemies[i].sprite.setPosition(500, 500);
+		enemies[i].sprite.move(direction.x * 3, direction.y * 3);
+	}
+}
+
+void enemy::enemy_shoot(std::vector <enemy>& enemies, std::vector <bullet>& bullets, int& score) {
+	for (int i = 0; i < enemies.size(); ++i) {
+		for (int j = 0; j < bullets.size(); ++j) {
+			if (enemies[i].sprite.getGlobalBounds().intersects(bullets[j].sprite.getGlobalBounds())) {
+				enemies.erase(enemies.begin() + i);
+				bullets.erase(bullets.begin() + j);
+				score += 1;
+			}
+		}
 	}
 }

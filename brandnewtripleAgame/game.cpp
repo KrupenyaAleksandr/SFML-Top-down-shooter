@@ -74,7 +74,7 @@ void game::update(float delta) {
 		{
 			if (event.mouseButton.button == sf::Mouse::Left)
 			{
-				instance->playerBullet.push_back(sf::Vector2f(instance->player.sprite.getPosition()));
+				instance->playerBullet.push_back(bullet(sf::Vector2f(instance->player.sprite.getPosition()), sf::Vector2f(sf::Mouse::getPosition(instance->window))));
 			}
 		}
 	}
@@ -85,8 +85,9 @@ void game::render() {
 	sf::Vector2f lookDirection = sf::Vector2f(sf::Mouse::getPosition(instance->window)) - instance->player.sprite.getPosition();
 	instance->player.sprite.setRotation(std::atan2f(lookDirection.y, lookDirection.x) * 180 / float(M_PI));
 	instance->player.render(instance->window);
+
 	for (int i = 0; i < instance->playerBullet.size(); ++i) {
-		instance->window.draw(instance->playerBullet[i].sprite);
+		instance->playerBullet[i].render(instance->window);
 	}
 	for (int i = 0; i < instance->enemies.size(); ++i) {
 		instance->enemies[i].render(instance->window);
@@ -105,11 +106,13 @@ void game::run() {
 		t2 = instance->respawnClock.getElapsedTime();
 		if (instance->enemies.size() < 20 && t2.asSeconds() >= 1) {
 			enemy::spawn(instance->enemies);
-			std::cout << instance->enemies.size() << std::endl;
 			instance->respawnClock.restart();
 		}
 		bullet::move_bullet(instance->playerBullet);
 		enemy::move(instance->player.sprite.getPosition(), 0, instance->enemies);
+		bullet::bullet_outofbounds(instance->playerBullet);
+		enemy::enemy_shoot(instance->enemies, instance->playerBullet, instance->score);
+		std::cout << instance->score << std::endl;
 		updateDelta();
 		update(instance->delta);
 		render();
