@@ -50,6 +50,23 @@ menu::menu(){
 menu::~menu(){}
 
 void menu::start(game* game) {
+	settings::load_settings(game->gamesettings);
+	if (game->gamesettings._music == 1) {
+		music_menu.setVolume(15);
+		game->gamesound.music[1].setVolume(2);
+	}
+	else if (game->gamesettings._music == 0) {
+		music_menu.setVolume(0);
+		game->gamesound.music[1].setVolume(0);
+	}
+	if (game->gamesettings._soundeff == 1) {
+		game->gamesound.sounds_eff[0].setVolume(100);
+		game->gamesound.sounds_eff[1].setVolume(30);
+	}
+	else if (game->gamesettings._soundeff == 0) {
+		game->gamesound.sounds_eff[0].setVolume(0);
+		game->gamesound.sounds_eff[1].setVolume(0);
+	}
 	music_menu.play();
 	while (game->window.isOpen()) {
 		sf::Event event;

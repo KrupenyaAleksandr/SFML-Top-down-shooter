@@ -17,6 +17,20 @@ settings::settings() {
 	galochkaSprite.setTexture(galochkaTex);
 }
 
+void settings::save_settings(settings _settings) {
+	std::ofstream fout("settings.txt");
+	fout << _settings._music << " " << _settings._soundeff;
+	fout.close();
+}
+
+void settings::load_settings(settings& _settings) {
+	std::ifstream fin("settings.txt");
+	if (fin.peek() == EOF) return;
+	fin >> _settings._music;
+	fin >> _settings._soundeff;
+	fin.close();
+}
+
 void settings::open_settings(sf::RenderWindow& window, settings& _settings, sound& _gamesound, sf::Music& menu_music) {
 	while (window.isOpen()) {
 		sf::Event event;
@@ -54,13 +68,22 @@ void settings::open_settings(sf::RenderWindow& window, settings& _settings, soun
 						}
 					}
 					else if (_settings.soundeffr.contains(sf::Mouse::getPosition(window))) {
-						if (_settings._soundeff == 0) _settings._soundeff = 1;
-						else if (_settings._soundeff == 1) _settings._soundeff = 0;
+						if (_settings._soundeff == 0) {
+							_settings._soundeff = 1;
+							_gamesound.sounds_eff[0].setVolume(100);
+							_gamesound.sounds_eff[1].setVolume(30);
+						}
+						else if (_settings._soundeff == 1) {
+							_settings._soundeff = 0;
+							_gamesound.sounds_eff[0].setVolume(0);
+							_gamesound.sounds_eff[1].setVolume(0);
+						}
 					}
 				}
 			}
 			else if (event.type == sf::Event::KeyPressed) {
 				if (event.key.code == sf::Keyboard::Escape) {
+					save_settings(_settings);
 					return;
 				}
 			}
@@ -71,46 +94,3 @@ void settings::open_settings(sf::RenderWindow& window, settings& _settings, soun
 		window.display();
 	}
 }
-
-//void settings::open_settings(game* game, settings _settings) {
-//	while (game->window.isOpen()) {
-//		sf::Event event;
-//		game->window.draw(_settings.settingsSprite);
-//		if (_settings._music == 1) {
-//			_settings.galochkaSprite.setPosition(825, 500);
-//			game->window.draw(_settings.galochkaSprite);
-//		}
-//		if (_settings._soundeff == 1) {
-//			_settings.galochkaSprite.setPosition(770, 330);
-//			game->window.draw(_settings.galochkaSprite);
-//		}
-//		while (game->window.pollEvent(event)) {
-//			game->window.draw(_settings.settingsSprite);
-//			if (_settings._music == 1) {
-//				_settings.galochkaSprite.setPosition(825, 500);
-//				game->window.draw(_settings.galochkaSprite);
-//			}
-//			if (_settings._soundeff == 1) {
-//				_settings.galochkaSprite.setPosition(770, 330);
-//				game->window.draw(_settings.galochkaSprite);
-//			}
-//			if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-//				if (_settings.musicr.contains(sf::Mouse::getPosition(game->window))) {
-//					_settings._music = 0;
-//				}
-//				else if (_settings.soundeffr.contains(sf::Mouse::getPosition(game->window))) {
-//					_settings._soundeff = 0;
-//				}
-//			}
-//			else if (event.type == sf::Event::KeyPressed) {
-//				if (event.key.code == sf::Keyboard::Escape) {
-//					return;
-//				}
-//			}
-//			else if (event.type == sf::Event::Closed) {
-//				game->window.close();
-//			}
-//		}
-//		game->window.display();
-//	}
-//}

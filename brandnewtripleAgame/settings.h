@@ -1,7 +1,9 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-#include "sound.h"
 #include <SFML/Audio.hpp>
+#include "sound.h"
+#include <fstream>
+
 
 class settings
 {
@@ -16,8 +18,8 @@ public:
 	static int _soundeff;
 public:
 	settings();
-	static void save_settings();
-	static void load_settings();
+	static void save_settings(settings _settings);
+	static void load_settings(settings& _settings);
 	static void open_settings(sf::RenderWindow& window, settings& _settings, sound& _gamesound, sf::Music& menu_music);
 };
 
