@@ -1,13 +1,31 @@
 #include "enemy.h"
 
-sf::Texture enemy::texture;
+std::vector <sf::Texture> enemy::texture(4);
 double enemy::speed = 6;
 
 enemy::enemy(sf::Vector2f pos) {
-	texture.loadFromFile("gamedata/texture/zumbi.png");
-	sprite.setOrigin((sf::Vector2f)texture.getSize() / 2.f);
+	texture[0].loadFromFile("gamedata/texture/enemy0.png");
+	texture[1].loadFromFile("gamedata/texture/enemy1.png");
+	texture[2].loadFromFile("gamedata/texture/enemy2.png");
+	texture[3].loadFromFile("gamedata/texture/enemy3.png");
 	sprite.setPosition(pos);
-	sprite.setTexture(texture);
+	int tmp = rand() % 4;
+	if (tmp == 0) {
+		sprite.setTexture(texture[0]);
+		sprite.setOrigin((sf::Vector2f)texture[0].getSize() / 2.f);
+	}
+	if (tmp == 1) {
+		sprite.setTexture(texture[1]);
+		sprite.setOrigin((sf::Vector2f)texture[1].getSize() / 2.f);
+	}
+	if (tmp == 2) {
+		sprite.setTexture(texture[2]);
+		sprite.setOrigin((sf::Vector2f)texture[2].getSize() / 2.f);
+	}
+	if (tmp == 3) {
+		sprite.setTexture(texture[3]);
+		sprite.setOrigin((sf::Vector2f)texture[3].getSize() / 2.f);
+	}
 	sprite.setScale(2.6, 2.6);
 }
 

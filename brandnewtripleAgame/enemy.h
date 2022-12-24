@@ -5,7 +5,7 @@
 class enemy : public entity
 {
 public:
-	static sf::Texture texture;
+	static std::vector <sf::Texture> texture;
 	static double speed;
 public:
 	enemy(sf::Vector2f pos);
