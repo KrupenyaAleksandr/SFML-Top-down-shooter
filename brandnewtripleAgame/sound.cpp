@@ -16,5 +16,5 @@ sound::sound() {
 	music[0].setLoop(true);
 	music[1].openFromFile("gamedata/sound/Carpenter-Brut-Turbo-Killer.wav");
 	music[1].setLoop(true);
-	music[1].setVolume(5);
+	music[1].setVolume(2);
 }

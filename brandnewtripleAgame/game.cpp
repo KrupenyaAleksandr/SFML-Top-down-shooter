@@ -127,9 +127,10 @@ void game::run() {
 		if (character::collision_withenemy(instance->enemies, instance->player.sprite)) {
 			instance->gamesound.sounds_eff[1].play();
 			instance->reset(); 
+			enemy::speed = 6;
 		}
 		std::cout << instance->score << std::endl;
-		updateDelta();
+		//updateDelta();
 		update(instance->delta);
 		render();
 		if (instance->exit) {

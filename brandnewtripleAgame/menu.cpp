@@ -44,7 +44,7 @@ menu::menu(){
 	}
 	music_menu.openFromFile("gamedata/sound/Modulogeek-Around.wav");
 	music_menu.setLoop(true);
-	music_menu.setVolume(30);
+	music_menu.setVolume(15);
 }
 
 menu::~menu(){}

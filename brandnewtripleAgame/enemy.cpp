@@ -1,6 +1,7 @@
 #include "enemy.h"
 
 sf::Texture enemy::texture;
+double enemy::speed = 6;
 
 enemy::enemy(sf::Vector2f pos) {
 	texture.loadFromFile("gamedata/texture/zumbi.png");
@@ -52,8 +53,9 @@ void enemy::move(sf::Vector2f playerPos, float playerRotation, std::vector <enem
 		direction.x /= hyp;
 		direction.y /= hyp;
 		sf::Vector2f tmp = enemies[i].sprite.getPosition();
-		enemies[i].sprite.move(direction.x * 6, direction.y * 6);
+		enemies[i].sprite.move(direction.x * speed, direction.y * speed);
 	}
+	speed += 0.001;
 }
 
 void enemy::enemy_shoot(std::vector <enemy>& enemies, std::vector <bullet>& bullets, int& score) {
