@@ -1,7 +1,7 @@
 #include "enemy.h"
 
 std::vector <sf::Texture> enemy::texture(4);
-double enemy::speed = 6;
+double enemy::speed = 7;
 
 enemy::enemy(sf::Vector2f pos) {
 	texture[0].loadFromFile("gamedata/texture/enemy0.png");
@@ -73,7 +73,7 @@ void enemy::move(sf::Vector2f playerPos, float playerRotation, std::vector <enem
 		sf::Vector2f tmp = enemies[i].sprite.getPosition();
 		enemies[i].sprite.move(direction.x * speed, direction.y * speed);
 	}
-	speed += 0.001;
+	speed += 0.002;
 }
 
 void enemy::enemy_shoot(std::vector <enemy>& enemies, std::vector <bullet>& bullets, int& score) {

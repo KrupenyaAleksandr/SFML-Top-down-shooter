@@ -94,7 +94,7 @@ void game::update() {
 		//shoot
 		sf::Time t1;
 		t1 = instance->reloadClock.getElapsedTime();
-		if (event.type == sf::Event::MouseButtonReleased && t1.asSeconds() >= 0.2)
+		if (event.type == sf::Event::MouseButtonReleased && t1.asSeconds() >= 0.3)
 		{
 			if (event.mouseButton.button == sf::Mouse::Left)
 			{
@@ -133,6 +133,7 @@ void game::render() {
 void game::run() {
 	load();
 	instance->exit = false;
+	instance->gamesound.music[1].setPlayingOffset(sf::seconds(41.f));
 	instance->gamesound.music[1].play();
 	instance->mapTex.loadFromFile("gamedata/texture/map.png");
 	instance->mapSprite.setTexture(instance->mapTex);
@@ -150,7 +151,7 @@ void game::run() {
 		if (character::collision_withenemy(instance->enemies, instance->player.sprite)) {
 			instance->gamesound.sounds_eff[1].play();
 			instance->reset(); 
-			enemy::speed = 6;
+			enemy::speed = 7;
 		}
 		update();
 		render();

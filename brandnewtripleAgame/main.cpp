@@ -1,11 +1,8 @@
 #include "menu.h"
 
-//LENGTH OF VECTOR: |V| = sqrt(V.x^2 + V.y^2)
-//NORMALIZE VECTOR: U = V / |V|
-
 int main() {
 	srand(time(NULL));
-	game game(1200, 1000, "bebra");
+	game game(1200, 1000, "Hotline BSTU");
 	menu menu;
 	menu.start(&game);
 	return 0;
