@@ -13,6 +13,30 @@ game::game(unsigned int width, unsigned int height, const char* title)
 
 game::~game(){}
 
+void game::save() {
+	std::ofstream fout("save.txt");
+	fout << instance->player.sprite.getPosition().x << " " << instance->player.sprite.getPosition().y << std::endl;
+	fout << instance->enemies.size() << std::endl;
+	for (int i = 0; i < instance->enemies.size(); ++i) {
+		fout << instance->enemies[i].sprite.getPosition().x << " " << instance->enemies[i].sprite.getPosition().y << std::endl;
+	}
+	fout.close();
+}
+
+void game::load() {
+	std::ifstream fin("save.txt");
+	if (fin.peek() == EOF) return;
+	sf::Vector2f tmp;
+	int count;
+	fin >> tmp.x >> tmp.y;
+	instance->player.sprite.setPosition(tmp);
+	fin >> count;
+	for (int i = 0; i < count; ++i) {
+		fin >> tmp.x >> tmp.y;
+		instance->enemies.push_back(enemy(tmp));
+	}
+}
+
 void game::reset() {
 	instance->player.sprite.setPosition(600, 500);
 	instance->enemies.clear();
@@ -21,7 +45,7 @@ void game::reset() {
 	isShooting = false;
 }
 
-void game::update(float delta) {
+void game::update() {
 	sf::Event event;
 	while (instance->window.pollEvent(event)) {
 		if (event.type == sf::Event::Closed) {
@@ -88,13 +112,15 @@ void game::render() {
 	instance->window.draw(instance->mapSprite);
 	sf::Vector2f lookDirection = sf::Vector2f(sf::Mouse::getPosition(instance->window)) - instance->player.sprite.getPosition();
 	instance->player.sprite.setRotation(std::atan2f(lookDirection.y, lookDirection.x) * 180 / float(M_PI));
-	if (isShooting) {
+	if (!isShooting) {
+		instance->player.render(instance->window, instance->player.sprite);
+	}
+	else {
 		instance->player.shootSprite.setPosition(instance->player.sprite.getPosition());
 		instance->player.shootSprite.setRotation(instance->player.sprite.getRotation());
 		instance->player.render(instance->window, instance->player.shootSprite);
 		isShooting = false;
 	}
-	else instance->player.render(instance->window, instance->player.getSprite(0));
 	for (int i = 0; i < instance->playerBullet.size(); ++i) {
 		instance->playerBullet[i].render(instance->window);
 	}
@@ -104,11 +130,8 @@ void game::render() {
 	instance->window.display();
 }
 
-void game::updateDelta() {
-	instance->delta = instance->clock.restart().asMilliseconds();
-}
-
 void game::run() {
+	load();
 	instance->exit = false;
 	instance->gamesound.music[1].play();
 	instance->mapTex.loadFromFile("gamedata/texture/map.png");
@@ -129,12 +152,11 @@ void game::run() {
 			instance->reset(); 
 			enemy::speed = 6;
 		}
-		std::cout << instance->score << std::endl;
-		//updateDelta();
-		update(instance->delta);
+		update();
 		render();
 		if (instance->exit) {
 			instance->gamesound.music[1].stop();
+			save();
 			return;
 		}
 	}

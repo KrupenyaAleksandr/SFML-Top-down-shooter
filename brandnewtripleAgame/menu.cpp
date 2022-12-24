@@ -63,6 +63,9 @@ void menu::start(game* game) {
 					game->run();
 					music_menu.play();
 				}
+				else if (menu::settingsr.contains(sf::Mouse::getPosition(game->window))) {
+					game->gamesettings.open_settings(game->window, game->gamesettings, game->gamesound, music_menu);
+				}
 				else if (menu::exitr.contains(sf::Mouse::getPosition(game->window))) {
 						game->window.close();
 				}

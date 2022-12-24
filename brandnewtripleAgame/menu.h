@@ -1,5 +1,6 @@
 #pragma once
 #include "game.h"
+#include "settings.h"
 #include "SFML/Audio.hpp"
 
 class menu

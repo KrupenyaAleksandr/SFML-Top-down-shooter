@@ -14,10 +14,7 @@ bullet::bullet(sf::Vector2f pos, sf::Vector2f mousePos) {
 	currVelocity.x = aimDirNorm.x * 90;
 	currVelocity.y = aimDirNorm.y * 90;
 	sprite.setScale(0.02, 0.02);
-	//sprite.setTextureRect(0, 0)
-	sprite.setPosition(pos.x + currVelocity.x * 1.15, pos.y + currVelocity.y * 1.15);
-	//sprite.setTextureRect({ 0, 0, 150, 50 });
-	printf("bebra");
+	sprite.setPosition(pos.x, pos.y);
 }
 
 bullet::~bullet(){}
