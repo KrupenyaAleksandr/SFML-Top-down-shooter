@@ -74,7 +74,6 @@ void menu::start(game* game) {
 		game->window.draw(menu::animation[animFrame]);
 		while (game->window.pollEvent(event)) {
 			if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-				std::cout << sf::Mouse::getPosition(game->window).x << " " << sf::Mouse::getPosition(game->window).y << std::endl;
 				if (menu::startr.contains(sf::Mouse::getPosition(game->window))) {
 					music_menu.stop();
 					game->run();
