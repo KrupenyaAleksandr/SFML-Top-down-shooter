@@ -16,6 +16,7 @@ game::~game(){}
 void game::save() {
 	std::ofstream fout("save.txt");
 	fout << instance->player.sprite.getPosition().x << " " << instance->player.sprite.getPosition().y << std::endl;
+	fout << instance->score << std::endl;
 	fout << instance->enemies.size() << std::endl;
 	for (int i = 0; i < instance->enemies.size(); ++i) {
 		fout << instance->enemies[i].sprite.getPosition().x << " " << instance->enemies[i].sprite.getPosition().y << std::endl;
@@ -30,6 +31,8 @@ void game::load() {
 	int count;
 	fin >> tmp.x >> tmp.y;
 	instance->player.sprite.setPosition(tmp);
+	fin >> count;
+	instance->score = count;
 	fin >> count;
 	for (int i = 0; i < count; ++i) {
 		fin >> tmp.x >> tmp.y;
@@ -94,10 +97,17 @@ void game::render() {
 	for (int i = 0; i < instance->enemies.size(); ++i) {
 		instance->enemies[i].render(instance->window, instance->enemies[i].getSprite());
 	}
+	instance->window.draw(instance->_score);
 	instance->window.display();
 }
 
 void game::run() {
+	instance->font.loadFromFile("gamedata/justice.ttf");
+	instance->_score.setFont(instance->font);
+	instance->_score.setPosition(15, 15);
+	instance->_score.setFillColor(sf::Color::Magenta);
+	instance->_score.setCharacterSize(100);
+	std::string score_str;
 	load();
 	instance->exit = false;
 	instance->gamesound.music[1].setPlayingOffset(sf::seconds(41.f));
@@ -105,6 +115,8 @@ void game::run() {
 	instance->mapTex.loadFromFile("gamedata/texture/map.png");
 	instance->mapSprite.setTexture(instance->mapTex);
 	while (instance->window.isOpen()) {
+		score_str = std::to_string(instance->score);
+		instance->_score.setString(score_str);
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
 			instance->player.sprite.move(0.8 * 4, 0);
 		}
