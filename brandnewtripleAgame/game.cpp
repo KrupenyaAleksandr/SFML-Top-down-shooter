@@ -58,39 +58,6 @@ void game::update() {
 			}
 		}
 
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) { 
-			if (event.type == sf::Event::MouseMoved) {
-				instance->player.sprite.move(-0.5 * 3, 0);
-			}
-			else {
-				instance->player.sprite.move(-1.f * 4, 0);
-			}
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-			if (event.type == sf::Event::MouseMoved) {
-				instance->player.sprite.move(0.5 * 3, 0);
-			}
-			else {
-				instance->player.sprite.move(1.f * 4, 0);
-			}
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-			if (event.type == sf::Event::MouseMoved) {
-				instance->player.sprite.move(0, -0.5 * 3);
-			}
-			else {
-				instance->player.sprite.move(0, -1.f * 4);
-			}
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-			if (event.type == sf::Event::MouseMoved) {
-				instance->player.sprite.move(0, 0.5 * 3);
-			}
-			else {
-				instance->player.sprite.move(0, 1.f * 4);
-			}
-		}
-
 		//shoot
 		sf::Time t1;
 		t1 = instance->reloadClock.getElapsedTime();
@@ -138,6 +105,19 @@ void game::run() {
 	instance->mapTex.loadFromFile("gamedata/texture/map.png");
 	instance->mapSprite.setTexture(instance->mapTex);
 	while (instance->window.isOpen()) {
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+			instance->player.sprite.move(0.8 * 4, 0);
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+			instance->player.sprite.move(-0.8 * 4, 0);
+		}
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+			instance->player.sprite.move(0, 0.8 * 4);
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
+			instance->player.sprite.move(0, -0.8 * 4);
+		}
 		sf::Time t2;
 		t2 = instance->respawnClock.getElapsedTime();
 		if (instance->enemies.size() < 20 && t2.asSeconds() >= 0.8) {
