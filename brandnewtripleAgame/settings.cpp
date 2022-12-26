@@ -1,7 +1,7 @@
 #include "settings.h"
 
-sf::IntRect settings::musicr = {765, 347, 71, 73};
-sf::IntRect settings::soundeffr = { 820, 515, 72, 73 };
+sf::IntRect settings::musicr = {775, 410, 71, 73};
+sf::IntRect settings::soundeffr = {831, 579, 72, 73 };
 
 sf::Texture settings::settingsTex;
 sf::Sprite settings::settingsSprite;
@@ -36,21 +36,21 @@ void settings::open_settings(sf::RenderWindow& window, settings& _settings, soun
 		sf::Event event;
 		window.draw(_settings.settingsSprite);
 		if (_music == 1) {
-			_settings.galochkaSprite.setPosition(770, 300);
+			_settings.galochkaSprite.setPosition(775, 366);
 			window.draw(_settings.galochkaSprite);
 		}
 		if (_soundeff == 1) {
-			_settings.galochkaSprite.setPosition(825, 470);
+			_settings.galochkaSprite.setPosition(830, 535);
 			window.draw(_settings.galochkaSprite);
 		}
 		while (window.pollEvent(event)) {
 			window.draw(_settings.settingsSprite);
 			if (_settings._music == 1) {
-				_settings.galochkaSprite.setPosition(770, 300);
+				_settings.galochkaSprite.setPosition(775, 366);
 				window.draw(_settings.galochkaSprite);
 			}
 			if (_settings._soundeff == 1) {
-				_settings.galochkaSprite.setPosition(825, 470);
+				_settings.galochkaSprite.setPosition(830, 535);
 				window.draw(_settings.galochkaSprite);
 			}
 			if (event.type == sf::Event::MouseButtonReleased) {
