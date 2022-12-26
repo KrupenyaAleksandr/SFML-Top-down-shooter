@@ -9,6 +9,12 @@ game::game(unsigned int width, unsigned int height, const char* title)
 	window.setFramerateLimit(60);
 	instance = this;
 	this->player.sprite.setPosition(600, 500);
+	sf::Texture tex;
+	sf::Sprite spr;
+	tex.loadFromFile("gamedata/texture/loading.png");
+	spr.setTexture(tex);
+	window.draw(spr);
+	window.display();
 }
 
 game::~game(){}
@@ -150,6 +156,7 @@ void game::run() {
 		if (instance->exit) {
 			instance->gamesound.music[1].stop();
 			save();
+			instance->enemies.clear();
 			return;
 		}
 	}
