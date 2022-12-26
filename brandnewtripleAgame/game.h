@@ -32,6 +32,8 @@ protected:
 	sf::Texture mapTex;
 	sf::Sprite mapSprite;
 public:
+	sf::Font font;
+	sf::Text _score;
 	settings gamesettings;
 	sound gamesound;
 	sf::RenderWindow window;
